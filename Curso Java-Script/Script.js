@@ -143,6 +143,37 @@ function calcularTotal() {
     });
 }
 
+// Función para guardar datos automáticamente en localStorage
+function guardarAutomatico() {
+    const cantidadEntradas = document.getElementById('cantidad-entradas').value;
+    const cantidadMesasVIP = document.getElementById('cantidad-mesas-vip').value;
+    const nombre = document.getElementById('nombre').value;
+    const apellido = document.getElementById('apellido').value;
+    const bebidaSeleccionada = document.getElementById('bebida').value;
+    const cantidadBebidas = document.getElementById('cantidad-bebidas').value;
+
+    const bebidasSeleccionadas = [{ nombre: bebidaSeleccionada, cantidad: cantidadBebidas }];
+
+    const datos = {
+        entradas: cantidadEntradas,
+        mesasVIP: cantidadMesasVIP,
+        nombre: nombre,
+        apellido: apellido,
+        bebidas: bebidasSeleccionadas
+    };
+
+    localStorage.setItem('datosBoliche', JSON.stringify(datos));
+}
+
+// Agregar eventos para guardar automáticamente los datos cuando cambian los campos
+document.getElementById('cantidad-entradas').addEventListener('input', guardarAutomatico);
+document.getElementById('cantidad-mesas-vip').addEventListener('input', guardarAutomatico);
+document.getElementById('nombre').addEventListener('input', guardarAutomatico);
+document.getElementById('apellido').addEventListener('input', guardarAutomatico);
+document.getElementById('bebida').addEventListener('input', guardarAutomatico);
+document.getElementById('cantidad-bebidas').addEventListener('input', guardarAutomatico);
+
+
 // Función para llenar tablas con los datos
 function llenarTablas(bebidasSeleccionadas, cantidadEntradas, totalEntradasHTML, totalMesasVIPHTML) {
     const tablaDatos = document.getElementById('tabla-datos').getElementsByTagName('tbody')[0];
