@@ -92,41 +92,57 @@ function calcularMesasVIP() {
 
 // Función principal para calcular y mostrar el total
 function calcularTotal() {
-    const cantidadEntradasInput = document.getElementById('cantidad-entradas');
-    const cantidadEntradas = parseInt(cantidadEntradasInput.value) || 0;
+    Swal.fire({
+        title: "¿Deseas guardar los cambios?",
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Guardar",
+        denyButtonText: `No guardar`
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Si el usuario confirma que desea guardar
+            const cantidadEntradasInput = document.getElementById('cantidad-entradas');
+            const cantidadEntradas = parseInt(cantidadEntradasInput.value) || 0;
 
-    const totalEntradasHTML = totalEntrada(cantidadEntradas);
-    const bebidasSeleccionadas = seleccionarBebidas();
-    const totalBebidasHTML = calcularTotalBebidas(bebidasSeleccionadas);
-    const totalMesasVIPHTML = calcularMesasVIP();
-    const totalFinalHTML = totalEntradasHTML + totalBebidasHTML + totalMesasVIPHTML;
+            const totalEntradasHTML = totalEntrada(cantidadEntradas);
+            const bebidasSeleccionadas = seleccionarBebidas();
+            const totalBebidasHTML = calcularTotalBebidas(bebidasSeleccionadas);
+            const totalMesasVIPHTML = calcularMesasVIP();
+            const totalFinalHTML = totalEntradasHTML + totalBebidasHTML + totalMesasVIPHTML;
 
-    const resultadoEntradas = document.getElementById('resultado-entradas');
-    const resultadoBebidas = document.getElementById('resultado-bebidas');
-    const resultadoMesaVIP = document.getElementById('resultado-mesa-vip');
-    const resultadoTotal = document.getElementById('resultado-total');
+            const resultadoEntradas = document.getElementById('resultado-entradas');
+            const resultadoBebidas = document.getElementById('resultado-bebidas');
+            const resultadoMesaVIP = document.getElementById('resultado-mesa-vip');
+            const resultadoTotal = document.getElementById('resultado-total');
 
-    // Llenar tabla con los resultados
-    llenarTablas(bebidasSeleccionadas, cantidadEntradas, totalEntradasHTML, totalMesasVIPHTML);
+            // Llenar tabla con los resultados
+            llenarTablas(bebidasSeleccionadas, cantidadEntradas, totalEntradasHTML, totalMesasVIPHTML);
 
-    resultadoEntradas.textContent = `Total Entradas: $${totalEntradasHTML}`;
-    resultadoBebidas.textContent = `Total Bebidas: $${totalBebidasHTML}`;
-    resultadoMesaVIP.textContent = `Total Mesas VIP: $${totalMesasVIPHTML}`;
-    resultadoTotal.textContent = `Total Final: $${totalFinalHTML}`;
+            resultadoEntradas.textContent = `Total Entradas: $${totalEntradasHTML}`;
+            resultadoBebidas.textContent = `Total Bebidas: $${totalBebidasHTML}`;
+            resultadoMesaVIP.textContent = `Total Mesas VIP: $${totalMesasVIPHTML}`;
+            resultadoTotal.textContent = `Total Final: $${totalFinalHTML}`;
 
-    // Agregar lógica para llenar la tabla con nombre y apellido
-    llenarTablaNombreApellido();
+            // Agregar lógica para llenar la tabla con nombre y apellido
+            llenarTablaNombreApellido();
 
-    // Guardar en localStorage
-    localStorage.setItem('datosBoliche', JSON.stringify({
-        entradas: cantidadEntradas,
-        bebidas: bebidasSeleccionadas,
-        mesasVIP: document.getElementById('cantidad-mesas-vip').value,
-        total: totalFinalHTML,
-        nombre: document.getElementById('nombre').value,
-        apellido: document.getElementById('apellido').value
-    }));
+            // Guardar en localStorage
+            localStorage.setItem('datosBoliche', JSON.stringify({
+                entradas: cantidadEntradas,
+                bebidas: bebidasSeleccionadas,
+                mesasVIP: document.getElementById('cantidad-mesas-vip').value,
+                total: totalFinalHTML,
+                nombre: document.getElementById('nombre').value,
+                apellido: document.getElementById('apellido').value
+            }));
+
+            Swal.fire("Guardado!", "", "success");
+        } else if (result.isDenied) {
+            Swal.fire("Los cambios no se guardaron", "", "info");
+        }
+    });
 }
+
 
 // Función para llenar tablas con los datos
 function llenarTablas(bebidasSeleccionadas, cantidadEntradas, totalEntradasHTML, totalMesasVIPHTML) {
