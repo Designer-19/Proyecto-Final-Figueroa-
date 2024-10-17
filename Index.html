@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Boliche</title>
+    <style>
+        body{
+            background-color: rgb(56, 199, 224);
+        }
+        h1 {
+            color: rgb(93, 11, 233);
+            text-decoration: underline;
+            font-weight: bold;
+            text-align: center;
+            font-style: oblique;
+        }
+
+        h2 {
+            color: rgb(230, 10, 135);
+            text-decoration: underline;
+            font-weight: bold;
+            font-style: oblique;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            text-align: center;
+        }
+
+        #calcular {
+            text-decoration: underline;
+            color: rgb(6, 255, 101);
+            background-color: rgb(51, 111, 136);
+            width: 200px;
+            padding: 10px;
+            margin-top: 20px;
+        }
+
+        input, select {
+            width: 200px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: lightgray;
+        }
+
+        .centered {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .seccion {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #bebidas {
+            background-color: rgb(113, 249, 129);
+        }
+
+        #tabla-datos {
+            background-color: rgb(113, 249, 129);
+        }
+
+        #tabla-nombre-apellido {
+            background-color: rgb(113, 249, 129);
+        }
+        p{
+            text-decoration: underline;
+            color: rgb(6, 255, 101);
+            background-color: rgb(51, 111, 136);
+            width: 200px;
+            padding: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Simulador de Boliche</h1>
+
+    <h2>Bebidas</h2>
+    <div class="centered">
+        <select id="bebida">
+            <option value="">Selecciona bebida</option>
+            <option value="Cerveza">Cerveza</option>
+            <option value="Agua">Agua</option>
+            <option value="Caipi Frutos Rojos">Caipi Frutos Rojos</option>
+            <option value="Caipi Maracuyá">Caipi Maracuyá</option>
+            <option value="Caipi Absolut">Caipi Absolut</option>
+            <option value="Caipi Smirnoff">Caipi Smirnoff</option>
+            <option value="Fernet con Coca">Fernet con Coca</option>
+            <option value="Vodka con Speed">Vodka con Speed</option>
+            <option value="Botella de Fernet">Botella de Fernet</option>
+            <option value="Caipiroska Absolut con Maracuyá">Caipiroska Absolut con Maracuyá</option>
+            <option value="Caipiroska Absolut con Frutos Rojos">Caipiroska Absolut con Frutos Rojos</option>
+            <option value="Caipiroska Absolut">Caipiroska Absolut</option>
+            <option value="Caipiroska Smirnoff">Caipiroska Smirnoff</option>
+        </select>
+
+        <input type="number" id="cantidad-bebidas" placeholder="Cantidad de bebidas">
+        
+        <h2>Entradas</h2>
+        <input type="number" id="cantidad-entradas" placeholder="Cantidad de entradas">
+
+        <h2>Mesas VIP</h2>
+        <select id="mesa-vip" onchange="manejarSeleccionVIP()">
+            <option value="no">No quiero mesa VIP</option>
+            <option value="si">Sí quiero una mesa VIP</option>
+        </select>
+        
+        <p>Cantidad de personas por mesa = 12 personas</p>
+        <p>Precio de la mesa = $ 156.000</p>
+        
+        <div id="vip-section" style="display: none;">
+            <label for="cantidad-mesas-vip">¿Cuántas mesas VIP quieres reservar?</label>
+            <input type="number" id="cantidad-mesas-vip" min="1" placeholder="Cantidad de Mesas VIP">
+            <div id="mensaje-error-vip" style="color: red;"></div>
+        </div>
+        
+        <h2>Nombre y Apellido</h2>
+        <div class="seccion">
+            <input type="text" id="nombre" placeholder="Nombre">
+            <input type="text" id="apellido" placeholder="Apellido">
+        </div>
+
+        <button id="calcular" onclick="calcularTotal()">Calcular Total</button>
+    </div>
+
+    <!-- Resultados -->
+    <div id="resultado-entradas"></div>
+    <div id="resultado-bebidas"></div>
+    <div id="resultado-mesa-vip"></div>
+    <div id="resultado-total"></div>
+
+    <!-- Tablas -->
+    <h1>Lista de Bebidas</h1>
+    <table id="bebidas">
+        <thead>
+            <tr>
+                <th>Bebida</th>
+                <th>Precio</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Cerveza</td>
+                <td>$ 7.000</td>
+            </tr>
+            <tr>
+                <td>Agua</td>
+                <td>$ 3.500</td>
+            </tr>
+            <tr>
+                <td>Caipi Frutos Rojos</td>
+                <td>$ 10.000</td>
+            </tr>
+            <tr>
+                <td>Caipi Maracuyá</td>
+                <td>$ 10.000</td>
+            </tr>
+            <tr>
+                <td>Caipi Absolut</td>
+                <td>$ 10.000</td>
+            </tr>
+            <tr>
+                <td>Caipi Smirnoff</td>
+                <td>$ 10.000</td>
+            </tr>
+            <tr>
+                <td>Fernet con Coca</td>
+                <td>$ 8.500</td>
+            </tr>
+            <tr>
+                <td>Vodka con Speed</td>
+                <td>$ 6.790</td>
+            </tr>
+            <tr>
+                <td>Botella de Fernet</td>
+                <td>$ 90.000</td>
+            </tr>
+            <tr>
+                <td>Caipiroska Absolut con Maracuyá</td>
+                <td>$ 14.000</td>
+            </tr>
+            <tr>
+                <td>Caipiroska Absolut con Frutos Rojos</td>
+                <td>$ 14.000</td>
+            </tr>
+            <tr>
+                <td>Caipiroska Absolut</td>
+                <td>$ 14.000</td>
+            </tr>
+            <tr>
+                <td>Caipiroska Smirnoff</td>
+                <td>$ 14.000</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table id="tabla-datos">
+        <thead>
+            <tr>
+                <th>Descripción</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Precio Total</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <table id="tabla-nombre-apellido">
+        <thead>
+            <tr>
+                <th>Campo</th>
+                <th>Valor</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    
+
+    <!-- Mensaje de error -->
+    <div id="mensaje-error" style="color: red;"></div>
+
+    <!-- Script -->
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>
